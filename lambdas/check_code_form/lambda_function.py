@@ -24,7 +24,10 @@ def check_code_form(code: str) -> str:
 
 def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     logger.info(event)
-    code = check_code_form(event['code'])
+    try:
+        code = check_code_form(event['code'])
+    except KeyError:
+        code = ''
     return {
         'success': '' != code,
         'code': code,
