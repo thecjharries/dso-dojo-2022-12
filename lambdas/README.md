@@ -15,4 +15,8 @@
 
 5. Run the test case and see the output
 
+## TODO
+
+- [ ] Deal with `boto3` mocking to test `runner`
+
 [1]: <https://www.sqlshack.com/calling-an-aws-lambda-function-from-another-lambda-function/> "Calling Lambdas from Lambdas"

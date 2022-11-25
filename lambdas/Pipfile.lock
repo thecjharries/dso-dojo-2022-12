@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5e902c35ec3fbb93ea1c7b311c6d4f1fa3d136a3a62b168ed96cb8ef52c99978"
+            "sha256": "56b890ec00cf33e7db9d4a6b86b50f15dae7aee8c25c945128ef32e3cbf48348"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -23,14 +23,6 @@
             ],
             "index": "pypi",
             "version": "==2.4.0"
-        },
-        "boto3": {
-            "hashes": [
-                "sha256:31c0adf71e4bd19a5428580bb229d7ea3b5795eecaa0847a85385df00c026116",
-                "sha256:4f493a2aed71cee93e626de4f67ce58dd82c0473480a0fc45b131715cd8f4f30"
-            ],
-            "index": "pypi",
-            "version": "==1.26.16"
         },
         "botocore": {
             "hashes": [
@@ -144,14 +136,6 @@
             ],
             "index": "pypi",
             "version": "==7.2.0"
-        },
-        "pytest-mock": {
-            "hashes": [
-                "sha256:f4c973eeae0282963eb293eb173ce91b091a79c1334455acfac9ddee8a1c784b",
-                "sha256:fbbdb085ef7c252a326fd8cdcac0aa3b1333d8811f131bdcc701002e1be7ed4f"
-            ],
-            "index": "pypi",
-            "version": "==3.10.0"
         },
         "tomli": {
             "hashes": [
