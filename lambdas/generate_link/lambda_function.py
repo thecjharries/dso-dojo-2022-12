@@ -17,11 +17,15 @@ class OutputEvent(TypedDict):
     link: str
 
 
+def generate_link(code: str) -> str:
+    return f'{PROTOCOL}://{ROOT_URL}/download/{code}'
+
+
 def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     logger.info(event)
     code = event['code']
     return {
-        'success': False,
+        'success': True,
         'code': code,
-        'link': f'{PROTOCOL}://{ROOT_URL}/download/{code}',
+        'link': generate_link(code),
     }
