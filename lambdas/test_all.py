@@ -29,7 +29,9 @@ def test_check_code_form():
 def test_check_code_form_lambda_handler(events, event_name, context):
     event = events[event_name]['event']
     response = check_code_form_lambda_handler(event, context)
-    assert response == events[event_name]['response']
+    assert response['success'] == events[event_name]['response']['success']
+    assert response['link'] == events[event_name]['response']['link']
+    assert response['code'] == events[event_name]['response']['code']
 
 
 def test_check_code_used():
