@@ -13,18 +13,24 @@ class InputEvent(TypedDict):
 class OutputEvent(TypedDict):
     success: bool
     code: str
+    link: str
+    message: str
+
+
+def check_code_used(code: str) -> str:
+    seed(code)
+    if 1 == randint(0, 1):
+        return code
+    return ''
 
 
 def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     logger.info(event)
-    code = event['code']
-    seed(code)
-    if 1 == randint(0, 1):
-        return {
-            'success': True,
-            'code': code.lower(),
-        }
+    code = check_code_used(event.get('code', '').lower())
+    logger.info(f'Code: {code}')
     return {
-        'success': False,
-        'code': '',
+        'success': '' != code,
+        'code': code,
+        'link': '',
+        'message': '',
     }

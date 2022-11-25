@@ -14,17 +14,23 @@ class InputEvent(TypedDict):
 class OutputEvent(TypedDict):
     success: bool
     code: str
+    link: str
+    message: str
+
+
+def check_code_form(code: str) -> str:
+    if CODE_FORM_PATTERN.match(code):
+        return code
+    return ''
 
 
 def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     logger.info(event)
-    code = event['code']
-    if CODE_FORM_PATTERN.match(code):
-        return {
-            'success': True,
-            'code': code.lower(),
-        }
+    code = check_code_form(event.get('code', '').lower())
+    logger.info(f'Code: {code}')
     return {
-        'success': False,
-        'code': '',
+        'success': '' != code,
+        'code': code,
+        'link': '',
+        'message': '',
     }
