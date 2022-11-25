@@ -1,3 +1,7 @@
+OBJECTS = $(foreach item,$(shell find . -maxdepth 1 -type d -not -path .),$(item).zip)
+
+all: $(OBJECTS)
+
 %.zip:
 	cd $(basename $@) && \
 		pipenv requirements > requirements.txt && \
@@ -7,3 +11,8 @@
 		cd .. && \
 		zip -g ../$@ lambda_function.py && \
 		rm -rf package requirements.txt
+
+clean:
+	rm -f *.zip
+	find . -name package -type d -exec rm -rf {} +
+	find . -name requirements.txt -type f -exec rm -rf {} \;
