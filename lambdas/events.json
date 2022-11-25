@@ -1,0 +1,24 @@
+{
+  "empty": {
+    "event": {},
+    "metadata": {},
+    "response": {
+      "success": false,
+      "code": "",
+      "link": "",
+      "message": "Malformed code"
+    }
+  },
+  "valid_unused": {
+    "event": {
+      "code": "ABCDE-12345-FGHIJ"
+    },
+    "metadata": {},
+    "response": {
+      "success": true,
+      "code": "abcde-12345-fghij",
+      "link": "https://reallycoolwebsite.com/download/abcde-12345-fghij",
+      "message": "Success"
+    }
+  }
+}

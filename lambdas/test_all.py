@@ -25,12 +25,11 @@ def test_check_code_form():
     assert '' == check_code_form('test')
 
 
-@mark.parametrize('event_name', ['empty'])
+@mark.parametrize('event_name', ['empty', 'valid_unused'])
 def test_check_code_form_lambda_handler(events, event_name, context):
     event = events[event_name]['event']
     response = check_code_form_lambda_handler(event, context)
     assert response['success'] == events[event_name]['response']['success']
-    assert response['link'] == events[event_name]['response']['link']
     assert response['code'] == events[event_name]['response']['code']
 
 
