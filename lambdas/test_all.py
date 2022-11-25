@@ -21,7 +21,7 @@ def context():
 
 def test_check_code_form():
     assert 'abcde-12345-fghij' == check_code_form('abcde-12345-fghij')
-    assert 'abcde-12345-fghij' == check_code_form('ABCDE-12345-FGHIJ')
+    assert 'ABCDE-12345-FGHIJ' == check_code_form('ABCDE-12345-FGHIJ')
     assert '' == check_code_form('test')
 
 
@@ -35,7 +35,7 @@ def test_check_code_form_lambda_handler(events, event_name, context):
 
 def test_check_code_used():
     assert 'abcde-12345-fghji' == check_code_used('abcde-12345-fghji')
-    assert 'abcde-12345-fgijh' == check_code_used('abcde-12345-fgijh')
+    assert 'ABCDE-12345-FGIJH' == check_code_used('ABCDE-12345-FGIJH')
     assert '' == check_code_used('abcde-12345-fghij')
 
 

@@ -26,7 +26,8 @@ def generate_link(code: str) -> str:
 
 def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     logger.info(event)
-    code = event.get('code', '')
+    code = event.get('code', '').lower()
+    logger.info(f'Code: {code}')
     return {
         'success': '' != code,
         'code': code,

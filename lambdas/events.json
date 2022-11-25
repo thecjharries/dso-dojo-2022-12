@@ -11,13 +11,13 @@
   },
   "valid_unused": {
     "event": {
-      "code": "ABCDE-12345-FGHIJ"
+      "code": "ABCDE-12345-FGIJH"
     },
     "metadata": {},
     "response": {
       "success": true,
-      "code": "abcde-12345-fghij",
-      "link": "https://reallycoolwebsite.com/download/abcde-12345-fghij",
+      "code": "abcde-12345-fgijh",
+      "link": "https://reallycoolwebsite.com/download/abcde-12345-fgijh",
       "message": "Success"
     }
   }
