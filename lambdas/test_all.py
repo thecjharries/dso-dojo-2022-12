@@ -25,7 +25,7 @@ def test_check_code_form():
     assert '' == check_code_form('test')
 
 
-@mark.parametrize('event_name', ['empty', 'valid_unused'])
+@mark.parametrize('event_name', ['empty', 'valid_unused', 'invalid'])
 def test_check_code_form_lambda_handler(events, event_name, context):
     event = events[event_name]['event']
     response = check_code_form_lambda_handler(event, context)
@@ -39,7 +39,7 @@ def test_check_code_used():
     assert '' == check_code_used('abcde-12345-fghij')
 
 
-@mark.parametrize('event_name', ['empty', 'valid_unused'])
+@mark.parametrize('event_name', ['empty', 'valid_unused', 'valid_used'])
 def test_check_code_used_lambda_handler(events, event_name, context):
     event = events[event_name]['event']
     response = check_code_used_lambda_handler(event, context)

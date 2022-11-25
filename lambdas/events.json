@@ -20,5 +20,29 @@
       "link": "https://reallycoolwebsite.com/download/abcde-12345-fgijh",
       "message": "Success"
     }
+  },
+  "valid_used": {
+    "event": {
+      "code": "ABCDE-12345-FGHIJ"
+    },
+    "metadata": {},
+    "response": {
+      "success": false,
+      "code": "",
+      "link": "",
+      "message": "Code already used"
+    }
+  },
+  "invalid": {
+    "event": {
+      "code": "ABCDE-12345-FGHI"
+    },
+    "metadata": {},
+    "response": {
+      "success": false,
+      "code": "",
+      "link": "",
+      "message": "Malformed code"
+    }
   }
 }
