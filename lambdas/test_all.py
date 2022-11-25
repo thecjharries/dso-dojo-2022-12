@@ -39,6 +39,14 @@ def test_check_code_used():
     assert '' == check_code_used('abcde-12345-fghij')
 
 
+@mark.parametrize('event_name', ['empty', 'valid_unused'])
+def test_check_code_used_lambda_handler(events, event_name, context):
+    event = events[event_name]['event']
+    response = check_code_used_lambda_handler(event, context)
+    assert response['success'] == events[event_name]['response']['success']
+    assert response['code'] == events[event_name]['response']['code']
+
+
 def test_generate_link():
     assert 'https://reallycoolwebsite.com/download/abcde-12345-fghij' == generate_link(
         'abcde-12345-fghij')
@@ -46,3 +54,12 @@ def test_generate_link():
         'abcde-12345-fghji')
     assert 'https://reallycoolwebsite.com/download/abcde-12345-fgijh' == generate_link(
         'abcde-12345-fgijh')
+
+
+@mark.parametrize('event_name', ['empty', 'valid_unused'])
+def test_generate_link_lambda_handler(events, event_name, context):
+    event = events[event_name]['event']
+    response = generate_link_lambda_handler(event, context)
+    assert response['success'] == events[event_name]['response']['success']
+    assert response['code'] == events[event_name]['response']['code']
+    assert response['link'] == events[event_name]['response']['link']
