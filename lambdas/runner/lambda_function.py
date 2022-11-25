@@ -21,7 +21,7 @@ class OutputEvent(TypedDict):
 
 def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     logger.info(event)
-    code = event['code']
+    code = event.get('code', '')
     payload = {
         'code': code.lower(),
     }
