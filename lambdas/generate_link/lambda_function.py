@@ -15,6 +15,7 @@ class OutputEvent(TypedDict):
     success: bool
     code: str
     link: str
+    message: str
 
 
 def generate_link(code: str) -> str:
@@ -30,4 +31,5 @@ def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
         'success': '' != code,
         'code': code,
         'link': generate_link(code),
+        'message': '',
     }

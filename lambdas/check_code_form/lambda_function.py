@@ -14,6 +14,8 @@ class InputEvent(TypedDict):
 class OutputEvent(TypedDict):
     success: bool
     code: str
+    link: str
+    message: str
 
 
 def check_code_form(code: str) -> str:
@@ -28,4 +30,6 @@ def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     return {
         'success': '' != code,
         'code': code,
+        'link': '',
+        'message': '',
     }
