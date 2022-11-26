@@ -2,7 +2,7 @@ from aws_lambda_powertools import Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from typing import TypedDict
 from boto3 import client as boto3_client
-from json import dumps as json_dumps, load as json_load
+from json import dumps as json_dumps, load as json_load, loads as json_loads
 
 logger = Logger()
 client = boto3_client('lambda')
@@ -21,7 +21,8 @@ class OutputEvent(TypedDict):
 
 def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     logger.info(event)
-    code = event.get('code', '')
+    body = json_loads(event['body'])
+    code = body.get('code', '')
     payload = {
         'code': code.lower(),
     }
