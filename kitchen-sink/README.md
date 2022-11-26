@@ -9,6 +9,6 @@ Yes. This folder duplicates everything because I want to leave my iterations in 
 I'd like to create the following workflow:
 
 * Test all the Python except for the runner using Pytest
-* Deploy everything to LocalStack using Terragrunt
-* Test the runner using Terratest on LocalStack
+* Deploy everything to LocalStack using Terragrunt (done)
+* Test the runner using Terratest on LocalStack (done)
 * Deploy everything to AWS using Terragrunt
