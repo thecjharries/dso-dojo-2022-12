@@ -7,18 +7,6 @@ terraform {
   }
 }
 
-data "aws_caller_identity" "current" {}
-
-output "caller" {
-  value = data.aws_caller_identity.current
-}
-
-resource "null_resource" "zip" {
-  provisioner "local-exec" {
-    command = "cd ${path.module}/../lambdas && make clean && make all"
-  }
-}
-
 data "aws_iam_policy_document" "lambda_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -33,6 +21,11 @@ data "aws_iam_policy_document" "lambda_assume_role" {
 resource "aws_iam_role" "lambda" {
   name               = "dso-dojo-2022-12-lambda-basic"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "basic_execution" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 locals {
@@ -81,8 +74,8 @@ resource "aws_iam_role_policy_attachment" "lambda_invoke" {
   policy_arn = aws_iam_policy.lambda_invoke.arn
 }
 
-resource "aws_iam_role_policy_attachment" "basic_execution" {
-  role       = aws_iam_role.lambda.name
+resource "aws_iam_role_policy_attachment" "invoke_execution" {
+  role       = aws_iam_role.lambda_invoke.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
@@ -92,4 +85,13 @@ resource "aws_lambda_function" "runner" {
   role          = aws_iam_role.lambda_invoke.arn
   runtime       = "python3.9"
   handler       = "lambda_function.lambda_handler"
+}
+
+resource "aws_lambda_function_url" "runner" {
+  function_name      = aws_lambda_function.runner.function_name
+  authorization_type = "NONE"
+}
+
+output "runner_url" {
+  value = aws_lambda_function_url.runner.function_url
 }
