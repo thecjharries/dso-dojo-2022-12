@@ -1,4 +1,4 @@
-OBJECTS = $(foreach item,$(shell find . -maxdepth 1 -type d -not -path .),$(item).zip)
+OBJECTS = $(foreach item,$(shell find . -maxdepth 1 -type d -not -path . -not -name './.*'),$(item).zip)
 
 all: $(OBJECTS)
 
