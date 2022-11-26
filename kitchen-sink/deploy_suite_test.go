@@ -20,8 +20,9 @@ type LocalStackStatus struct {
 type DeployTestSuite struct {
 	suite.Suite
 	setupSuccess bool
-	options      *terraform.Options
 	logger       *logger.Logger
+	options      *terraform.Options
+	plan         *terraform.PlanStruct
 }
 
 func (suite *DeployTestSuite) Log(message string, args ...interface{}) {
@@ -65,19 +66,26 @@ func (suite *DeployTestSuite) SetupSuite() {
 			suite.TearDownSuite()
 		}
 	})()
+	suite.ensureLocalStackRunning()
 	suite.logger = logger.Terratest
 	tmpTestFolder := test_structure.CopyTerraformFolderToTemp(suite.T(), ".", "module")
-	planFilePath := filepath.Join(tmpTestFolder, "plan.out")
+	planFilePath := filepath.Join(tmpTestFolder, "..", "plan.out")
 	suite.options = terraform.WithDefaultRetryableErrors(suite.T(), &terraform.Options{
 		TerraformBinary: "tflocal",
 		TerraformDir:    tmpTestFolder,
 		PlanFilePath:    planFilePath,
 	})
-	suite.ensureLocalStackRunning()
+	var planErr error
+	suite.plan, planErr = terraform.InitAndPlanAndShowWithStructE(suite.T(), suite.options)
+	suite.Nil(planErr, "Error running terraform init and plan")
+	applyOutput, applyErr := terraform.ApplyAndIdempotentE(suite.T(), suite.options)
+	suite.Nil(applyErr, "Error running terraform apply")
+	suite.Log("Apply output: %s", applyOutput)
 	suite.setupSuccess = true
 }
 
 func (suite *DeployTestSuite) TearDownSuite() {
+	terraform.Destroy(suite.T(), suite.options)
 	suite.ensureLocalStackStopped()
 }
 
