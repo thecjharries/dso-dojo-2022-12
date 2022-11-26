@@ -3,6 +3,7 @@ package test
 import (
 	"encoding/json"
 	"os/exec"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -19,8 +20,8 @@ type LocalStackStatus struct {
 type DeployTestSuite struct {
 	suite.Suite
 	setupSuccess bool
-	options *terraform.Options
-	logger  *logger.Logger
+	options      *terraform.Options
+	logger       *logger.Logger
 }
 
 func (suite *DeployTestSuite) Log(message string, args ...interface{}) {
@@ -66,9 +67,11 @@ func (suite *DeployTestSuite) SetupSuite() {
 	})()
 	suite.logger = logger.Terratest
 	tmpTestFolder := test_structure.CopyTerraformFolderToTemp(suite.T(), ".", "module")
+	planFilePath := filepath.Join(tmpTestFolder, "plan.out")
 	suite.options = terraform.WithDefaultRetryableErrors(suite.T(), &terraform.Options{
 		TerraformBinary: "tflocal",
 		TerraformDir:    tmpTestFolder,
+		PlanFilePath:    planFilePath,
 	})
 	suite.ensureLocalStackRunning()
 	suite.setupSuccess = true
