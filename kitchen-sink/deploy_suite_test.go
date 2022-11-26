@@ -18,6 +18,7 @@ type LocalStackStatus struct {
 
 type DeployTestSuite struct {
 	suite.Suite
+	setupSuccess bool
 	options *terraform.Options
 	logger  *logger.Logger
 }
@@ -57,6 +58,12 @@ func (suite *DeployTestSuite) ensureLocalStackStopped() {
 }
 
 func (suite *DeployTestSuite) SetupSuite() {
+	// https://github.com/stretchr/testify/issues/1123#issuecomment-964729053
+	defer (func() {
+		if !suite.setupSuccess {
+			suite.TearDownSuite()
+		}
+	})()
 	suite.logger = logger.Terratest
 	tmpTestFolder := test_structure.CopyTerraformFolderToTemp(suite.T(), ".", "module")
 	suite.options = terraform.WithDefaultRetryableErrors(suite.T(), &terraform.Options{
@@ -64,6 +71,7 @@ func (suite *DeployTestSuite) SetupSuite() {
 		TerraformDir:    tmpTestFolder,
 	})
 	suite.ensureLocalStackRunning()
+	suite.setupSuccess = true
 }
 
 func (suite *DeployTestSuite) TearDownSuite() {
