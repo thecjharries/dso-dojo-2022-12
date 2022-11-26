@@ -52,9 +52,9 @@ resource "null_resource" "lambdas" {
       pipenv requirements > requirements.txt
       pip install --target package --requirement requirements.txt
       cd package
-      zip -r ../${each.key}.zip .
+      zip -r ../../${each.key}.zip .
       cd ..
-      zip -g ${each.key}.zip lambda_function.py
+      zip -g ../${each.key}.zip lambda_function.py
     EOT
   }
 }
