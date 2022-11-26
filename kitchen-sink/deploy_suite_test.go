@@ -24,6 +24,7 @@ type DeployTestSuite struct {
 	logger       *logger.Logger
 	options      *terraform.Options
 	plan         *terraform.PlanStruct
+	url          string
 }
 
 func (suite *DeployTestSuite) Log(message string, args ...interface{}) {
@@ -84,6 +85,7 @@ func (suite *DeployTestSuite) SetupSuite() {
 	applyOutput, applyErr := terraform.ApplyAndIdempotentE(suite.T(), suite.options)
 	suite.Nil(applyErr, "Error running terraform apply")
 	suite.Log("Apply output: %s", applyOutput)
+	suite.url = terraform.Output(suite.T(), suite.options, "runner_url")
 	suite.setupSuccess = true
 }
 
