@@ -60,6 +60,10 @@ resource "null_resource" "lambdas" {
 }
 
 resource "aws_lambda_function" "basic_lambdas" {
+  depends_on = [
+    null_resource.lambdas
+  ]
+
   for_each = local.lambdas
 
   filename      = "${path.module}/../${each.key}.zip"
@@ -103,6 +107,10 @@ resource "aws_iam_role_policy_attachment" "invoke_execution" {
 }
 
 resource "aws_lambda_function" "runner" {
+  depends_on = [
+    null_resource.lambdas
+  ]
+
   filename      = "${path.module}/../runner.zip"
   function_name = "runner"
   role          = aws_iam_role.lambda_invoke.arn
