@@ -58,7 +58,7 @@ def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
     )
     response_payload = json_load(response['Payload'])
     return {
-        'success': False,
+        'success': True,
         'code': code,
         'link': response_payload['link'],
         'message': 'Success',
