@@ -40,7 +40,7 @@ resource "null_resource" "lambdas" {
   for_each = setunion(local.lambdas, ["runner"])
 
   triggers = {
-    code = file("${path.module}/../lambdas/${each.key}/lambda_function.py")
+    code = file("${path.module}/../${each.key}/lambda_function.py")
   }
 
   provisioner "local-exec" {
@@ -62,7 +62,7 @@ resource "null_resource" "lambdas" {
 resource "aws_lambda_function" "basic_lambdas" {
   for_each = local.lambdas
 
-  filename      = "${path.module}/../lambdas/${each.key}.zip"
+  filename      = "${path.module}/../${each.key}.zip"
   function_name = each.key
   role          = aws_iam_role.lambda.arn
   runtime       = "python3.9"
@@ -103,7 +103,7 @@ resource "aws_iam_role_policy_attachment" "invoke_execution" {
 }
 
 resource "aws_lambda_function" "runner" {
-  filename      = "${path.module}/../lambdas/runner.zip"
+  filename      = "${path.module}/../runner.zip"
   function_name = "runner"
   role          = aws_iam_role.lambda_invoke.arn
   runtime       = "python3.9"
