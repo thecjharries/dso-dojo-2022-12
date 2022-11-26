@@ -50,7 +50,7 @@ resource "null_resource" "lambdas" {
       cd ${each.key}
       rm -rf requirements.txt package
       pipenv requirements > requirements.txt
-      pipenv install --target package --requirement requirements.txt
+      pip install --target package --requirement requirements.txt
       cd package
       zip -r ../${each.key}.zip .
       cd ..
