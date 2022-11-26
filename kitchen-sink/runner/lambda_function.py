@@ -1,11 +1,18 @@
 from aws_lambda_powertools import Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from typing import TypedDict
+from os import environ
 from boto3 import client as boto3_client
 from json import dumps as json_dumps, load as json_load, loads as json_loads
 
 logger = Logger()
-client = boto3_client('lambda')
+if environ.get('LOCALSTACK_HOSTNAME', None):
+    client = boto3_client(
+        'lambda',
+        endpoint_url=f'http://{environ["LOCALSTACK_HOSTNAME"]}:{environ["EDGE_PORT"]}'
+    )
+else:
+    client = boto3_client('lambda')
 
 
 class InputEvent(TypedDict):
@@ -31,6 +38,7 @@ def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
         InvocationType='RequestResponse',
         Payload=json_dumps(payload),
     )
+    logger.info(response)
     response_payload = json_load(response['Payload'])
     if not response_payload['success']:
         return {
@@ -44,6 +52,7 @@ def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
         InvocationType='RequestResponse',
         Payload=json_dumps(payload),
     )
+    logger.info(response)
     response_payload = json_load(response['Payload'])
     if not response_payload['success']:
         return {
@@ -57,6 +66,7 @@ def lambda_handler(event: InputEvent, context: LambdaContext) -> OutputEvent:
         InvocationType='RequestResponse',
         Payload=json_dumps(payload),
     )
+    logger.info(response)
     response_payload = json_load(response['Payload'])
     return {
         'success': True,
