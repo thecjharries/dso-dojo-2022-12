@@ -2,6 +2,7 @@ package test
 
 import (
 	"encoding/json"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"testing"
@@ -31,6 +32,8 @@ func (suite *DeployTestSuite) Log(message string, args ...interface{}) {
 
 func (suite *DeployTestSuite) isLocalStackRunning() bool {
 	command := exec.Command("localstack", "status", "docker", "--format", "json")
+	command.Env = os.Environ()
+	command.Env = append(command.Env, "TF_COMPAT_MODE=true")
 	stdout, err := command.Output()
 	suite.Nil(err, "Error running localstack status command")
 	var status LocalStackStatus
